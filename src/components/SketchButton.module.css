@@ -1,0 +1,31 @@
+.btn {
+  display: inline-block;
+  padding: 0.45rem 1.4rem;
+  font-family: var(--font-sketch), "Comic Sans MS", cursive;
+  font-size: 1.15rem;
+  color: var(--ink);
+  background: var(--card-bg);
+  border: 2px solid var(--card-line);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  box-shadow: 2px 3px 0 var(--shadow);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 4px 6px 0 var(--shadow);
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--bg-color);
+  border-color: var(--card-line);
+}

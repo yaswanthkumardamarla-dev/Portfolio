@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Yaswanth's Portfolio ✏️
 
-## Getting Started
+A hand-sketched personal portfolio built with [Next.js 16](https://nextjs.org), TypeScript, and Tailwind CSS 4 — featuring a paper-texture light/dark theme with wobbly, hand-drawn borders.
 
-First, run the development server:
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Dev helpers
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If port 3000 is stuck (an old server still running), free it with:
 
-## Learn More
+```bash
+npm run kill-port -- 3000     # kill whatever holds a port
+npm run dev:clean             # free port 3000, then start dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Or source the helper once to get a `k` command in your shell:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+source scripts/dev-tools.sh
+k 3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To make `k` permanent, add that `source` line (with the full path to your
+clone) to your `~/.zshrc` or `~/.bashrc`.
 
-## Deploy on Vercel
+## Editing your content
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Everything shown on the site lives in one file: [`src/lib/data.ts`](src/lib/data.ts).**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Update these exports with your own details:
+
+- `profile` — name, role, tagline, about paragraphs, email, location
+- `socials` — GitHub / LinkedIn / other links
+- `skillGroups` — your skill categories
+- `projects` — your projects (with live/repo links)
+- `experiences` — work history
+- `education` — degrees
+
+Entries marked `TODO` are placeholders. Also drop your resume at `public/resume.pdf` so the "Resume" button works.
+
+## Structure
+
+```
+src/
+├── app/            # layout (fonts, theme init), page, global styles
+├── components/     # Navbar, Footer, ThemeToggle, SketchButton
+├── sections/       # Hero, About, Skills, Projects, Experience, Contact
+├── lib/            # data.ts (all content), utils.ts
+└── types/          # shared TypeScript interfaces
+```
+
+## Theming
+
+Dark (ink-blue paper) is the default; the toggle in the navbar switches to light (cream paper) and persists in `localStorage`. Colors are CSS variables in [`src/app/globals.css`](src/app/globals.css) — tweak `--ink`, `--accent`, etc. there. The "sketchy" look comes from the `.sketch-border`, `.sketch-card`, `.sketch-tag`, and `.sketch-underline` utility classes in the same file.
+
+## Deploying
+
+The site is fully static — deploy free on [Vercel](https://vercel.com/new) (recommended for Next.js) or Netlify.
+
+```bash
+npm run build   # verify it builds
+```

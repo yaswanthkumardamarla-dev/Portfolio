@@ -1,26 +1,166 @@
 @import "tailwindcss";
 
+/* ============================================================
+   THEME — dark (ink paper) by default, light (cream paper)
+   via <html data-theme="light">
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg-image: url("/dark-background.png");
+  --bg-color: #0f3358;
+  --ink: #f5efe0;
+  --ink-soft: #d8cfba;
+  --accent: #f7c948;
+  --card-bg: rgba(245, 239, 224, 0.06);
+  --card-line: rgba(245, 239, 224, 0.75);
+  --shadow: rgba(0, 0, 0, 0.35);
+  --glass-surface: #292659;
+  --glass-panel: rgba(25, 28, 66, 0.95);
+  --glass-panel-soft: rgba(245, 239, 224, 0.08);
+  --glass-border: rgba(216, 211, 255, 0.68);
+  --glass-glow: rgba(151, 118, 255, 0.46);
+  --modal-backdrop: rgba(2, 10, 21, 0.86);
+  --popup-cyan: #67e8f9;
+  --popup-blue: #75a7ff;
+  --popup-purple: #c4a7ff;
+  --popup-coral: #ff998b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root[data-theme="light"] {
+  --bg-image: url("/light-background.png");
+  --bg-color: #fdf9f1;
+  --ink: #0f3358;
+  --ink-soft: #3d5a7a;
+  --accent: #b8860b;
+  --card-bg: rgba(15, 51, 88, 0.04);
+  --card-line: rgba(15, 51, 88, 0.8);
+  --shadow: rgba(15, 51, 88, 0.18);
+  --glass-surface: #fff4fa;
+  --glass-panel: rgba(255, 248, 252, 0.97);
+  --glass-panel-soft: rgba(15, 51, 88, 0.055);
+  --glass-border: rgba(255, 255, 255, 0.96);
+  --glass-glow: rgba(124, 88, 214, 0.3);
+  --modal-backdrop: rgba(8, 27, 48, 0.68);
+  --popup-cyan: #087f91;
+  --popup-blue: #285fc4;
+  --popup-purple: #7047bd;
+  --popup-coral: #c6493c;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ============================================================
+   BASE
+   ============================================================ */
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--bg-color);
+  color: var(--ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-image: var(--bg-image);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: var(--font-sketch), monospace;
+  font-size: 1rem;
+  line-height: 1.7;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+.font-sketch {
+  font-family: var(--font-sketch), "Comic Sans MS", cursive;
+  line-height: 1.2;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg-color);
+}
+
+/* ============================================================
+   SKETCH PRIMITIVES — wobbly hand-drawn borders
+   ============================================================ */
+
+.sketch-border {
+  border: 2px solid var(--card-line);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+}
+
+.sketch-border-alt {
+  border: 2px solid var(--card-line);
+  border-radius: 15px 255px 15px 225px / 225px 15px 255px 15px;
+}
+
+.sketch-card {
+  background: var(--card-bg);
+  box-shadow: 3px 4px 0 var(--shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sketch-card:hover {
+  transform: translateY(-3px) rotate(-0.4deg);
+  box-shadow: 5px 7px 0 var(--shadow);
+}
+
+.sketch-underline {
+  position: relative;
+  display: inline-block;
+  z-index: 0; /* stacking context so the ::after stays inside, behind the text */
+}
+
+.sketch-underline::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  bottom: -0.3em;
+  width: 104%;
+  height: 0.35em;
+  background: var(--accent);
+  opacity: 0.55;
+  border-radius: 60% 40% 55% 45% / 50% 60% 40% 50%;
+  transform: rotate(-1deg);
+  z-index: -1;
+}
+
+.sketch-tag {
+  display: inline-block;
+  padding: 0.1rem 0.7rem;
+  font-size: 0.85rem;
+  border: 1.5px solid var(--card-line);
+  border-radius: 155px 10px 125px 10px / 10px 125px 10px 155px;
+  transform: rotate(-0.5deg);
+}
+
+.sketch-tag:nth-child(even) {
+  transform: rotate(0.7deg);
+  border-radius: 10px 155px 10px 125px / 125px 10px 155px 10px;
+}
+
+.ink-soft {
+  color: var(--ink-soft);
+}
+
+.accent {
+  color: var(--accent);
+}
+
+/* Dashed hand-drawn divider */
+.sketch-divider {
+  border: none;
+  border-top: 2px dashed var(--card-line);
+  opacity: 0.5;
+  margin: 0 auto;
+  width: min(220px, 50%);
+  transform: rotate(-0.3deg);
 }
