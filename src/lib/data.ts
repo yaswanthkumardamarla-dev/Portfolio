@@ -128,15 +128,15 @@ export const projects: Project[] = [
 ];
 
 export const experiences: Experience[] = [
-
   {
-    role: "IT End Point Engineer",
-    company: "New York Unviersity",
-    period: "2026 — Present",
-    location: "New York, USA",
+    role: "Graduate Assistant, Endpoint Engineering",
+    company: "NYU IT – Endpoint Engineering",
+    period: "2025 — 2026",
+    location: "New York, NY",
     points: [
-      "Describe a key responsibility or achievement here.",
-      "Another impact-focused bullet — numbers help (e.g. 'cut load time by 40%').",
+      "Diagnosed and resolved hardware/software failures for 200+ macOS and Windows endpoints across campuses using HCL BigFix, Workspace ONE, and AI diagnostics.",
+      "Streamlined OS imaging and hardware provisioning for classrooms, labs, and kiosks, achieving a 40% efficiency gain in deployment workflows.",
+      "Managed incidents from intake through resolution and documented recurring hardware and software failures, enabling proactive maintenance and clearer support knowledge for endpoint teams.",
     ],
   },
   {
@@ -145,8 +145,11 @@ export const experiences: Experience[] = [
     period: "2020 — 2023",
     location: "Hyderabad, India",
     points: [
-      "What you built or contributed to during this role.",
-      "A skill or technology you grew into here.",
+      "Led end-to-end development of a customer-facing application, delivering five features that increased user engagement by 30% and reduced navigation-related support inquiries by 25%.",
+      "Designed and developed a search application that improved document-retrieval speed by 40%, increasing operational efficiency and user satisfaction.",
+      "Built a reusable download dialog and supporting REST APIs for document retrieval, reducing document-access support inquiries by 30%.",
+      "Introduced automated unit-testing workflows that accelerated defect identification and resolution by 70% and improved development-team productivity.",
+      "Facilitated architecture reviews, sprint planning, retrospectives, and project handoffs for 12 client team members, documenting decisions, ownership, dependencies, and delivery timelines.",
     ],
   },
 ];
