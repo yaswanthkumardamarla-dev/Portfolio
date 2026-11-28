@@ -11,24 +11,41 @@ export default function ProjectsSection() {
         <span className="sketch-underline">Projects</span>
       </h2>
 
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2">
         {projects.map((project, i) => (
           <article
             key={project.title}
             className={`${
               i % 2 === 0 ? "sketch-border" : "sketch-border-alt"
-            } sketch-card flex flex-col p-6`}
+            } sketch-card flex flex-col p-6 ${
+              project.featured ? "md:col-span-2 md:p-8" : ""
+            }`}
           >
-            <h3 className="mb-1 text-2xl font-bold">{project.title}</h3>
+            {project.featured && (
+              <p className="ink-soft font-sketch mb-2 text-sm tracking-widest uppercase">
+                ★ Featured
+              </p>
+            )}
+            <h3
+              className={`mb-1 font-bold ${
+                project.featured ? "text-3xl" : "text-2xl"
+              }`}
+            >
+              {project.title}
+            </h3>
             {project.highlight && (
-              <p className="font-sketch mb-2 text-lg" style={{ color: "var(--accent)" }}>
+              <p className="font-sketch mb-3 text-lg" style={{ color: "var(--accent)" }}>
                 {project.highlight}
               </p>
             )}
-            <p className="ink-soft mb-4 flex-1 text-[0.95rem]">
+            <p
+              className={`ink-soft mb-5 flex-1 ${
+                project.featured ? "max-w-3xl" : ""
+              }`}
+            >
               {project.description}
             </p>
-            <div className="mb-4 flex flex-wrap gap-2">
+            <div className="mb-5 flex flex-wrap gap-2">
               {project.tech.map((tech) => (
                 <span key={tech} className="sketch-tag text-xs">
                   {tech}

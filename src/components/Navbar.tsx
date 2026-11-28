@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { navLinks } from "@/lib/data";
+import { navLinks, profile } from "@/lib/data";
 import ThemeToggle from "./ThemeToggle";
 import Logo from "./Logo";
 
@@ -31,6 +31,15 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sketch-border-alt font-sketch px-3 py-0.5 text-lg no-underline transition-transform hover:-rotate-2 hover:scale-105"
+            style={{ color: "var(--ink)" }}
+          >
+            Resume ↗
+          </a>
           <ThemeToggle />
         </div>
 
@@ -63,6 +72,16 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href={profile.resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setOpen(false)}
+            className="font-sketch text-2xl no-underline"
+            style={{ color: "var(--ink)" }}
+          >
+            Resume ↗
+          </a>
         </div>
       )}
     </header>

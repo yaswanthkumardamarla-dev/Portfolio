@@ -16,6 +16,8 @@ export interface SocialLink {
 
 export interface SkillGroup {
   title: string;
+  /** Everyday tools: shown first and highlighted. */
+  core?: string[];
   skills: string[];
 }
 
@@ -26,6 +28,8 @@ export interface Project {
   liveUrl?: string;
   repoUrl?: string;
   highlight?: string;
+  /** Shown as a full-width card at the top of the grid. */
+  featured?: boolean;
 }
 
 export interface Experience {

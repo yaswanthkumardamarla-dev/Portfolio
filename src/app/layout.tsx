@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Playwrite_CA, Mandali, Courier_Prime } from "next/font/google";
+import { Playwrite_CA, Mandali, Courier_Prime, Nunito } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { profile } from "@/lib/data";
+import { siteUrl } from "@/lib/site";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import "./globals.css";
@@ -21,9 +23,30 @@ const teluguFont = Mandali({
   variable: "--font-telugu",
 });
 
+const bodyFont = Nunito({
+  subsets: ["latin"],
+  variable: "--font-body",
+});
+
+const title = `${profile.name} — ${profile.role}`;
+
 export const metadata: Metadata = {
-  title: `${profile.name} — ${profile.role}`,
+  metadataBase: new URL(siteUrl),
+  title,
   description: profile.tagline,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: profile.name,
+    title,
+    description: profile.tagline,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description: profile.tagline,
+  },
 };
 
 // Applies the saved theme before first paint to avoid a flash.
@@ -45,10 +68,13 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className={`${sketchFont.variable} ${nameFont.variable} ${teluguFont.variable}`}>
+      <body
+        className={`${sketchFont.variable} ${nameFont.variable} ${teluguFont.variable} ${bodyFont.variable}`}
+      >
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
