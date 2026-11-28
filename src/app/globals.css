@@ -6,7 +6,7 @@
    ============================================================ */
 
 :root {
-  --bg-image: url("/dark-background.png");
+  --bg-image: url("/dark-background.webp");
   --bg-color: #0f3358;
   --ink: #f5efe0;
   --ink-soft: #d8cfba;
@@ -27,7 +27,7 @@
 }
 
 :root[data-theme="light"] {
-  --bg-image: url("/light-background.png");
+  --bg-image: url("/light-background.webp");
   --bg-color: #fdf9f1;
   --ink: #0f3358;
   --ink-soft: #3d5a7a;
@@ -55,32 +55,64 @@ html {
   scroll-behavior: smooth;
 }
 
+html {
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
 html,
 body {
   margin: 0;
   min-height: 100%;
-  background-color: var(--bg-color);
   color: var(--ink);
 }
 
 body {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  transition: color 0.3s ease;
+}
+
+/* Paper texture pinned to the viewport. A fixed layer instead of
+   background-attachment: fixed, which phones ignore or repaint slowly. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
   background-image: var(--bg-image);
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
   background-repeat: no-repeat;
-  font-family: var(--font-sketch), monospace;
-  font-size: 1rem;
-  line-height: 1.7;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  pointer-events: none;
 }
 
+/* Typewriter font for headings, labels and tags; body text stays readable. */
 h1,
 h2,
 h3,
-.font-sketch {
-  font-family: var(--font-sketch), "Comic Sans MS", cursive;
+.font-sketch,
+.sketch-tag {
+  font-family: var(--font-sketch), "Courier New", monospace;
   line-height: 1.2;
+}
+
+.sketch-tag {
+  line-height: 1.7;
+}
+
+/* Theme toggle: show the icon for the current theme, straight from CSS. */
+.theme-icon-for-light {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-for-dark {
+  display: none;
+}
+
+:root[data-theme="light"] .theme-icon-for-light {
+  display: inline;
 }
 
 ::selection {
@@ -145,6 +177,26 @@ h3,
 .sketch-tag:nth-child(even) {
   transform: rotate(0.7deg);
   border-radius: 10px 155px 10px 125px / 125px 10px 155px 10px;
+}
+
+/* Highlighted tag: everyday-stack skills */
+.sketch-tag-core {
+  background: var(--accent);
+  color: var(--bg-color);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+/* On cream paper: a highlighter-yellow fill with ink text reads better */
+:root[data-theme="light"] .sketch-tag-core {
+  background: #f7c948;
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+/* Dashed hand-drawn line between skill rows */
+.skill-row-divider {
+  border-top: 1.5px dashed color-mix(in srgb, var(--card-line) 45%, transparent);
 }
 
 .ink-soft {

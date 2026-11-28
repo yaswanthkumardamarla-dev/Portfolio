@@ -29,3 +29,10 @@
   color: var(--bg-color);
   border-color: var(--card-line);
 }
+
+/* On cream paper: highlighter-yellow fill with ink text, for contrast */
+:global(:root[data-theme="light"]) .primary {
+  background: #f7c948;
+  color: var(--ink);
+  border-color: var(--accent);
+}

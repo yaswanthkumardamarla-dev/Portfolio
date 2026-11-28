@@ -1,20 +1,28 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 
 import styles from "./MadeWithLove.module.css";
 
-/** Tracks whether an element is on screen. */
-function useInView<T extends Element>() {
+/** Tracks whether an element is on screen; calls onExit when it leaves. */
+function useInView<T extends Element>(onExit: () => void) {
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);
+  const handleExit = useEffectEvent(onExit);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    const observer = new IntersectionObserver(([entry]) =>
-      setInView(entry.isIntersecting),
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+      if (!entry.isIntersecting) handleExit();
+    });
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
@@ -22,18 +30,20 @@ function useInView<T extends Element>() {
   return { ref, inView };
 }
 
+const reducedMotionQuery = "(prefers-reduced-motion: reduce)";
+
+function subscribeToReducedMotion(onChange: () => void) {
+  const query = window.matchMedia(reducedMotionQuery);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
 function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(query.matches);
-    const onChange = (event: MediaQueryListEvent) => setReduced(event.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
-
-  return reduced;
+  return useSyncExternalStore(
+    subscribeToReducedMotion,
+    () => window.matchMedia(reducedMotionQuery).matches,
+    () => false,
+  );
 }
 
 type Props = {
@@ -42,15 +52,13 @@ type Props = {
 
 export const MadeWithLove = ({ name }: Props) => {
   const reducedMotion = usePrefersReducedMotion();
-  const { ref, inView } = useInView<SVGSVGElement>();
-  const [handwritingDone, setHandwritingDone] = useState(false);
-
-  // Reduced motion: skip the draw-on (transitions won't fire onTransitionEnd).
+  const [drawingFinished, setDrawingFinished] = useState(false);
   // Out of view: reset so the animation replays on re-entry.
-  useEffect(() => {
-    if (!inView) setHandwritingDone(false);
-    else if (reducedMotion) setHandwritingDone(true);
-  }, [inView, reducedMotion]);
+  const { ref, inView } = useInView<SVGSVGElement>(() =>
+    setDrawingFinished(false),
+  );
+  // Reduced motion: skip the draw-on (transitions won't fire onTransitionEnd).
+  const handwritingDone = inView && (reducedMotion || drawingFinished);
 
   // Staggered pop-in: each letter springs in with its own delay,
   // left to right, once the handwriting finishes.
@@ -103,7 +111,7 @@ export const MadeWithLove = ({ name }: Props) => {
         <path
           className={styles.by}
           d="M437.107+500.591C437.107+500.591+436.708+502.145+436.353+502.858C432.743+510.104+429.611+517.643+426.563+525.151C426.283+525.838+423.714+532.681+423.174+533.842C422.673+534.919+421.291+538.054+421.291+536.865C421.291+519.214+449.399+512.601+445.391+532.708C443.629+541.546+425.618+540.265+419.408+537.999C418.509+537.671+416.772+537.824+416.772+536.865C416.772+535.259+423.402+538.201+423.927+538.376C429.955+540.393+435.917+540.485+441.625+537.621C447.505+534.671+452.459+527.835+456.688+522.884C456.949+522.579+463.24+513.06+462.336+513.06C456.943+513.06+454.671+536.694+458.571+537.999C464.638+540.028+472.073+525.146+474.387+521.373C475.773+519.112+477.126+516.824+478.528+514.571C479.048+513.737+480.722+511.371+480.411+512.304C473.095+534.33+465.605+557.168+451.793+576.162C445.916+584.244+431.502+598.333+422.797+585.231C401.066+552.522+456.425+545.617+474.763+546.312C477.417+546.412+507.273+545.178+502.629+545.178"
-          onTransitionEnd={() => setHandwritingDone(true)}
+          onTransitionEnd={() => setDrawingFinished(true)}
         />
       </svg>
       <span aria-hidden className={styles.name} data-caret={handwritingDone}>
