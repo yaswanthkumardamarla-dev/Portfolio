@@ -22,7 +22,7 @@ export const profile: Profile = {
     "Outside work I build projects that answer a question I'm curious about. Can code review remember the decisions a team has already made? How much personal data leaks out of a text embedding? Can an email assistant run entirely on your own laptop?",
     "Away from the keyboard I'm a swimmer, and I love reading about tech on the internet: new tools, new ideas and how other people build things.",
   ],
-  email: "yaswanthkumardamarla5@gmail.com",
+  email: "ykdamarla.dev@gmail.com",
   location: "USA",
   resumeUrl: "/resume.pdf",
 };
@@ -34,7 +34,7 @@ export const socials: SocialLink[] = [
     url: "https://www.linkedin.com/in/yaswanth-dyk/",
     icon: "linkedin",
   },
-  { label: "Email", url: "mailto:yaswanthkumardamarla5@gmail.com", icon: "mail" },
+  { label: "Email", url: "mailto:ykdamarla.dev@gmail.com", icon: "mail" },
 ];
 
 // Grouped like the resume. `core` = everyday stack, shown first and highlighted.
